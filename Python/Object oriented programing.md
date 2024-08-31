@@ -464,7 +464,7 @@ my_dog.bark()  # Output: Buddy says Woof!
     print(p3)  # Output: Point(4, 6)
     ```
 
-#### 8.4 Method Overriding:
+### 8.4 Method Overriding:
 
 -   Method overriding allows a child class to provide a specific implementation of a method that is already defined in its parent class.
 -   Example:
@@ -482,13 +482,189 @@ my_dog.bark()  # Output: Buddy says Woof!
     print(dog.sound())  # Output: Bark
     ```
 
-## 9. Abstract Methods and Abstract Base Classes
+## 9 Encapsulation in Python
+
+- **Encapsulation** is one of the fundamental concepts in object-oriented programming (OOP). 
+- It refers to the bundling of data (attributes) and methods (functions) that operate on the data into a single unit or class.
+- Encapsulation also restricts direct access to some of an object's components, which is a way of preventing accidental interference and misuse of the data.
+
+### 9.1 Private and Public Attributes
+
+- In Python, encapsulation is achieved by using access modifiers
+- Python uses naming conventions to indicate the intended level of access.
+
+#### 1. Public Attributes
+
+- Attributes and methods that are intended to be accessed from outside the class are public by default.
+
+Example:
+
+```python
+class MyClass:
+    def __init__(self, value):
+        self.value = value  # Public attribute
+
+obj = MyClass(10)
+print(obj.value)  # Output: 10
+```
+
+#### 2. Private Attributes
+
+- Private attributes are intended to be accessed only within their class.
+- In Python, attribute can be made private by prefixing its name with double underscores (`__`).
+
+Example:
+
+```python
+class MyClass:
+    def __init__(self, value):
+        self.__value = value  # Private attribute
+
+    def get_value(self):
+        return self.__value  # Public method to access the private attribute
+
+obj = MyClass(10)
+print(obj.get_value())  # Output: 10
+
+# Trying to access the private attribute directly will result in an AttributeError
+# print(obj.__value)  # Raises AttributeError
+```
+
+**Note:** In Python, private attributes are not truly private. They are name-mangled to make it harder to accidentally access them. The attribute `__value` in the example above is internally renamed to `_MyClass__value`. It can be accessed using `_MyClass__value`, though it’s not recommended.
+
+Example:
+
+```python
+print(obj._MyClass__value)  # Output: 10 (Accessing the private attribute through name mangling)
+```
+
+#### 3. Protected Attributes
+
+Protected attributes are meant to be accessed only within the class and its subclasses. In Python, protected attribute are indicated by prefixing its name with a single underscore (`_`).
+
+Example:
+
+```python
+class MyClass:
+    def __init__(self, value):
+        self._value = value  # Protected attribute
+
+    def get_value(self):
+        return self._value
+
+obj = MyClass(10)
+print(obj._value)  # Output: 10 (Accessible, but conventionally meant for internal use)
+```
+
+### 9.2 Encapsulation in Practice
+
+Encapsulation allows to control the way data is accessed and modified, promoting modularity and maintainability.
+
+#### 1. Getter and Setter Methods
+
+Getter methods allow to access private attributes, while setter methods allow to modify them. 
+
+Example:
+
+```python
+class MyClass:
+    def __init__(self, value):
+        self.__value = value  # Private attribute
+
+    def get_value(self):
+        return self.__value  # Getter method
+
+    def set_value(self, new_value):
+        if isinstance(new_value, int):  # Adding a validation check
+            self.__value = new_value
+        else:
+            print("Please enter an integer value.")
+
+obj = MyClass(10)
+print(obj.get_value())  # Output: 10
+
+obj.set_value(20)  # Modifying the private attribute using the setter method
+print(obj.get_value())  # Output: 20
+
+obj.set_value("abc")  # Trying to set a non-integer value
+# Output: Please enter an integer value.
+```
+
+### 9.3 Properties in Python
+
+Python provides a more elegant way to implement getter and setter methods using the `property()` function or the `@property` decorator.
+
+#### 1. Using `property()` Function
+
+Example:
+
+```python
+class MyClass:
+    def __init__(self, value):
+        self.__value = value  # Private attribute
+
+    def get_value(self):
+        return self.__value
+
+    def set_value(self, new_value):
+        if isinstance(new_value, int):
+            self.__value = new_value
+        else:
+            print("Please enter an integer value.")
+
+    value = property(get_value, set_value)
+
+obj = MyClass(10)
+print(obj.value)  # Output: 10
+
+obj.value = 20  # Setting a new value using the property
+print(obj.value)  # Output: 20
+```
+
+#### 2. Using `@property` Decorator
+
+The `@property` decorator allows you to define a method as a property, making the code cleaner and more Pythonic.
+
+Example:
+
+```python
+class MyClass:
+    def __init__(self, value):
+        self.__value = value  # Private attribute
+
+    @property
+    def value(self):
+        return self.__value
+
+    @value.setter
+    def value(self, new_value):
+        if isinstance(new_value, int):
+            self.__value = new_value
+        else:
+            print("Please enter an integer value.")
+
+obj = MyClass(10)
+print(obj.value)  # Output: 10
+
+obj.value = 20  # Setting a new value using the property
+print(obj.value)  # Output: 20
+```
+
+### 9.4 Benefits of Encapsulation
+
+- **Data Hiding:** By making attributes private, the internal representation of the object is hidden from the outside world. This prevents direct access, ensuring that the data can only be modified through well-defined methods.
+  
+- **Data Validation:** Encapsulation allows to add validation logic in setter methods, ensuring that only valid data is assigned to attributes.
+  
+- **Modularity:** Encapsulation promotes modularity by separating the internal implementation of an object from its external interface.
+
+## 10. Abstract Methods and Abstract Base Classes
 
 **Abstract Methods** are methods declared in a base class but have no implementation. They must be implemented in any subclass.
 
 **Abstract Base Classes (ABC)** provide a way to define abstract classes. An abstract class cannot be instantiated, and its abstract methods must be defined in a child class.
 
-### 9.1 Creating Abstract Classes:
+### 10.1 Creating Abstract Classes:
 
 -   Python provides the `abc` module to define abstract base classes.
 -   Example:
