@@ -851,7 +851,8 @@ COMMIT;
 This locks the selected row until the transaction is completed.
 
 ## Database Isolation Levels
-![Database Isolation Levels](image-1.png)
+![Database Isolation Levels](https://github.com/user-attachments/assets/2c7cd5af-e293-4414-82e9-5111dd03dd84)
+
 
 Isolation levels define the degree to which the operations in one transaction are isolated from those in other concurrent transactions.
 
